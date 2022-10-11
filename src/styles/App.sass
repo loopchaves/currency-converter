@@ -1,0 +1,47 @@
+main
+    width: 300px
+    padding: 2rem
+    border-radius: 10px
+    display: flex
+    flex-direction: column
+    gap: 1.5rem
+    background-color: #ccc
+
+    div
+        display: flex
+        align-items: center
+        border: 1px solid #999
+        border-radius: 5px
+        overflow: hidden
+
+        &:focus-within
+            border-color: #00a
+
+    select, input
+        width: 100%
+        height: 2rem
+        padding: 5px
+        background-color: #fff
+        border: none
+        outline: none
+
+    button
+        width: 100%
+        height: 2rem
+        padding: 5px
+        background-color: #22d
+        color: #fff
+        font-weight: bold
+        text-transform: uppercase
+        border: 2px solid transparent
+        border-radius: 5px
+        cursor: pointer
+        transition: 0.3s
+
+        &:not([disabled]):hover
+            background-color: #fff
+            border-color: #22d
+            color: #22d
+
+        &:disabled
+            background-color: #555
