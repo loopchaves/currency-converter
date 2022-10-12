@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 
 import currencies from './currencies.json';
 
@@ -7,7 +7,6 @@ import './styles/App.sass';
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-  const [android, setAndroid] = useState(false);
 
   const [from, setFrom] = useState('USD');
   const [to, setTo] = useState('BRL');
@@ -64,40 +63,21 @@ const App = () => {
       setAmount(Number(amount + key).toString());
     } else if ((key === ',' || key === '.') && !amount.includes('.')) {
       setAmount(amount + '.');
-    } else if (key === 'Backspace') {
+    } else if (!key) {
       setAmount(Number(amount.slice(0, amount.length - 1)).toString());
       if (!amount) setAmount('0');
     }
   }
-
-  const backspaceOnAndroid = useCallback((e) => {
-    if (e.inputType === 'deleteContentBackward') {
-      setAmount(Number(amount.slice(0, amount.length - 1)).toString());
-      if (!amount) setAmount('0');
-    }
-  }, [amount]);
-
-  useEffect(() => {
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf("android") > -1) {
-      setAndroid(true);
-      const inputAmount = document.getElementById('inputAmount');
-      inputAmount.addEventListener('input', backspaceOnAndroid);
-      return () => inputAmount.removeEventListener('input', backspaceOnAndroid);
-    }
-  }, [backspaceOnAndroid]);
 
   return (
     <main>
 
       <div>
         <input
-          id='inputAmount'
           type='text'
           value={currencyFormat(amount, from)}
           onChange={(e) => e.preventDefault()}
-          onBeforeInput={(e) => android && handlerInputChange(e.data)}
-          onKeyDown={(e) => !android && handlerInputChange(e.key)}
+          onInput={(e) => handlerInputChange(e.nativeEvent.data)}
           inputMode='numeric'
           disabled={loading}
         />
